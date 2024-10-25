@@ -15,7 +15,8 @@ export default tseslint.config(
         tsconfigRootDir: ".",
       },
     },
-    files: ['**/*.{ts,mts,cts}'],
+    files: ['tests/*.{ts,mts,cts}'],
+    ignores: ['node_modules'],
 
     // enable linting rules beneficial for Playwright projects
     rules: {
