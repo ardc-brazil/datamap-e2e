@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "gruntfuggly.todo-tree",
+    "inferrinizzard.prettier-sql-vscode",
+    "janisdd.vscode-edit-csv",
+    "mikestead.dotenv",
+    "ms-vscode.makefile-tools"
+  ]
+}

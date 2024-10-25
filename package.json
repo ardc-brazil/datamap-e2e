@@ -1,0 +1,28 @@
+{
+  "name": "datamap-e2e",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "tsc --noEmit && eslint .",
+    "test": "playwright test",
+    "lint": "eslint ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@playwright/test": "^1.48.1",
+    "@types/eslint__js": "^8.42.3",
+    "@types/node": "^22.8.0",
+    "eslint": "^9.13.0",
+    "typescript-eslint": "^8.11.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.0.3",
+    "dotenv": "^16.4.5",
+    "eslint-plugin-playwright": "^2.0.0",
+    "typescript": "^5.6.3"
+  }
+}
