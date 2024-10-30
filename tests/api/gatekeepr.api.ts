@@ -8,7 +8,10 @@ export class GatekeeperTestAPI {
     constructor(request: APIRequestContext) {
         this.baseUrl = process.env.DATAMAP_BASE_URL;
         this.request = request;
-        this.testTenancyName = process.env.PLAYWRIGHT_TEST_TENANCY;
+
+        // TODO: Is forcing datamap/production/data-amazon for everything.
+        // this.testTenancyName = process.env.PLAYWRIGHT_TEST_TENANCY;
+        this.testTenancyName = "datamap/production/data-amazon";
     }
 
     async getUser(email: string) {
