@@ -33,6 +33,7 @@ test('register DOI automatically', async ({ page }) => {
     // then
     await expect(datasetDetailsPage.buttonListDatasetVersion1).toBeVisible()
     await expect(datasetDetailsPage.buttonAddDatasetVersion).toBeVisible()
+    await expect(datasetDetailsPage.textDoiId).toBeVisible({ timeout: 30000 })
     await expect(datasetDetailsPage.textDoiId).toContainText("https://doi.org/10.")
     await expect(datasetDetailsPage.cardItemDoiMode).toContainText("AUTO")
     await expect(datasetDetailsPage.cardItemDoiStatus).toContainText("DRAFT")

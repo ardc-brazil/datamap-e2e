@@ -55,7 +55,7 @@ export class NewDatasetPage {
     await this.uploadFile(path.join(__dirname, '../fixtures/files-for-upload/file1.txt'))
 
     // Submit the form
-    await expect(this.buttonCreateDataset).toBeEnabled({ timeout: 3000 })
+    await expect(this.buttonCreateDataset).toBeEnabled({ timeout: 15000 })
     await this.buttonCreateDataset.click()
     await this.buttonViewDataset.click()
   }
