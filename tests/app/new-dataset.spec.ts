@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 import { DatasetDetailsPage } from "./details-dataset.page";
 import { NewDatasetPage } from "./new-dataset.page";
 
-test('create new dataset page layout', async ({ page }) => {
+test('create new dataset content info', async ({ page }) => {
     // given
     const newDatasetPage = new NewDatasetPage(page);
 
@@ -24,9 +24,9 @@ test('create new dataset', async ({ page }) => {
 
     // When
     await newDatasetPage.goto()
-    newDatasetPage.createNewDataset(expectedDatasetTitle)
+    await newDatasetPage.createNewDataset(expectedDatasetTitle)
 
     // Then
-    const datasetDetailsPage = new DatasetDetailsPage(page)
+    const datasetDetailsPage = new DatasetDetailsPage(page)    
     await expect(datasetDetailsPage.datasetTitle).toHaveText(expectedDatasetTitle)
 });
