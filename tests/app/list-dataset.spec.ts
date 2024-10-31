@@ -1,11 +1,17 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import ListDatasetPage from "./list-dataset.page";
 
-
 test('list all datasets', async ({ page }) => {
-    const pageObj = new ListDatasetPage(page);
-    await pageObj.goto()
-    await pageObj.assertInstructionTexts();
+    const listDatasetPage = new ListDatasetPage(page);
+    await listDatasetPage.goto()
 
-    // TODO: Add more assertions and fill the form to create a new dataset.
+    // Assert header text
+    await expect(listDatasetPage.titleHeader).toBeVisible({})
+    await expect(listDatasetPage.titleHeader).toHaveText('Datasets');
+    await expect(listDatasetPage.subtitleHeader).toHaveText('Explore, analyze, and share quality data. Learn more about data types, creating, and collaborating.');
+
+    // Assert number of elements
+    const count = parseInt(await listDatasetPage.datasetListResultsCountItems.innerText())
+    await expect(listDatasetPage.datasetListResultsItems).toHaveCount(count)
+    expect(count).toBeGreaterThanOrEqual(1)
 });
