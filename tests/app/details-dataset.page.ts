@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { expect, type Locator, type Page } from '@playwright/test';
 
 export class DatasetDetailsPage {
@@ -14,6 +15,13 @@ export class DatasetDetailsPage {
   readonly cardItemDoiStatus: Locator;
   readonly cardItemDoiStatusNavigator: Locator;
   readonly buttonDoiStatusNavigator: Locator;
+  readonly buttonGenerateDOIAutomatically: Locator;
+  readonly buttonGenerateDOIAutomaticallyRegisterConfirmation: Locator;
+
+  readonly buttonGenerateDOIManually: Locator;
+  readonly buttonGenerateDOIManuallySave: Locator;
+  readonly inputGenerateDOIManuallyIdentifier: Locator;
+
 
   constructor(page: Page) {
     this.page = page;
@@ -30,6 +38,12 @@ export class DatasetDetailsPage {
     this.cardItemDoiStatus = page.getByTestId("doi-register-status")
     this.cardItemDoiStatusNavigator = page.getByTestId("doi-status-navigator")
     this.buttonDoiStatusNavigator = this.cardItemDoiStatusNavigator.getByRole('button')
+
+    this.buttonGenerateDOIAutomatically = page.getByRole('button', { name: "Generate DOI Automatically" })
+    this.buttonGenerateDOIAutomaticallyRegisterConfirmation = page.getByRole('button', { name: "Register" })
+    this.buttonGenerateDOIManually = page.getByRole('button', { name: 'Register Manual DOI' })
+    this.inputGenerateDOIManuallyIdentifier = page.getByPlaceholder('10.1000/182')
+    this.buttonGenerateDOIManuallySave = page.getByRole('button', { name: 'Save' })
   }
 
   async goto(datasetId: string) {
@@ -45,5 +59,16 @@ export class DatasetDetailsPage {
     await this.buttonEditInstitution.click()
     await this.inputInstituitonName.fill(expectedInstitutionName)
     await this.buttonSaveInstitution.click()
+  }
+
+  async registerDOIAutomatically() {
+    await this.buttonGenerateDOIAutomatically.click()
+    await this.buttonGenerateDOIAutomaticallyRegisterConfirmation.click()
+  }
+
+  async registerDOIManually() {
+    await this.buttonGenerateDOIManually.click()
+    await this.inputGenerateDOIManuallyIdentifier.fill(`10.1000/${faker.airline.flightNumber({ length: { min: 6, max: 10 } })}`)
+    await this.buttonGenerateDOIManuallySave.click()
   }
 }

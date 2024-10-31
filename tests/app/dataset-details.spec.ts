@@ -3,6 +3,24 @@ import { expect, test } from '@playwright/test';
 import { DatasetDetailsPage } from "./details-dataset.page";
 import { NewDatasetPage } from "./new-dataset.page";
 
+test('page content layout', async ({ page }) => {
+    // given
+    const datasetDetailsPage = new DatasetDetailsPage(page)
+    const newDatasetPage = new NewDatasetPage(page);
+    const expectedDatasetTitle = faker.commerce.productName()
+
+    // when
+    await newDatasetPage.goto()
+    await newDatasetPage.createNewDataset(expectedDatasetTitle)
+
+    // then
+    await expect(datasetDetailsPage.datasetTitle).toHaveText(expectedDatasetTitle)
+    await expect(datasetDetailsPage.buttonListDatasetVersion1).toBeVisible()
+    await expect(datasetDetailsPage.buttonEditInstitution).toBeVisible()
+    await expect(datasetDetailsPage.buttonGenerateDOIAutomatically).toBeVisible()
+    await expect(datasetDetailsPage.buttonGenerateDOIManually).toBeVisible()    
+});
+
 test('new version dataset buttons available', async ({ page }) => {
     // given
     const datasetDetailsPage = new DatasetDetailsPage(page)
@@ -28,7 +46,7 @@ test('register DOI automatically', async ({ page }) => {
     await newDatasetPage.goto()
     await newDatasetPage.createNewDataset(expectedDatasetTitle)
     await datasetDetailsPage.editInstituionName(faker.company.name())
-    await newDatasetPage.registerDOIAutomatically()
+    await datasetDetailsPage.registerDOIAutomatically()
 
     // then
     await expect(datasetDetailsPage.buttonListDatasetVersion1).toBeVisible()
@@ -51,7 +69,7 @@ test('register DOI manually', async ({ page }) => {
     await newDatasetPage.goto()
     await newDatasetPage.createNewDataset(expectedDatasetTitle)
     await datasetDetailsPage.editInstituionName(faker.company.name())
-    await newDatasetPage.registerDOIManually()
+    await datasetDetailsPage.registerDOIManually()
 
     // then
     await expect(datasetDetailsPage.buttonListDatasetVersion1).toBeVisible()

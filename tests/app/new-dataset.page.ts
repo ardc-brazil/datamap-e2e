@@ -1,4 +1,3 @@
-import { faker } from "@faker-js/faker";
 import { expect, type Locator, type Page } from '@playwright/test';
 import path from "path";
 
@@ -12,13 +11,7 @@ export class NewDatasetPage {
   readonly buttonBrowseFolderUpload: Locator;
   readonly buttonCreateDataset: Locator;
   readonly buttonViewDataset: Locator;
-  readonly buttonGenerateDOIAutomatically: Locator;
-  readonly buttonGenerateDOIAutomaticallyRegisterConfirmation: Locator;
-
-  readonly buttonGenerateDOIManually: Locator;
-  readonly buttonGenerateDOIManuallySave: Locator;
-  readonly inputGenerateDOIManuallyIdentifier: Locator;
-
+  
   constructor(page: Page) {
     this.page = page;
 
@@ -30,11 +23,6 @@ export class NewDatasetPage {
     this.buttonBrowseFolderUpload = page.getByRole('button', { name: 'browse folders' })
     this.buttonCreateDataset = page.getByRole('button', { name: 'Create Dataset' })
     this.buttonViewDataset = page.getByRole('button', { name: "View Dataset" })
-    this.buttonGenerateDOIAutomatically = page.getByRole('button', { name: "Generate DOI Automatically" })
-    this.buttonGenerateDOIAutomaticallyRegisterConfirmation = page.getByRole('button', { name: "Register" })
-    this.buttonGenerateDOIManually = page.getByRole('button', { name: 'Register Manual DOI' })
-    this.inputGenerateDOIManuallyIdentifier = page.getByPlaceholder('10.1000/182')
-    this.buttonGenerateDOIManuallySave = page.getByRole('button', { name: 'Save' })
   }
 
   async goto() {
@@ -58,16 +46,5 @@ export class NewDatasetPage {
     await expect(this.buttonCreateDataset).toBeEnabled({ timeout: 15000 })
     await this.buttonCreateDataset.click()
     await this.buttonViewDataset.click()
-  }
-
-  async registerDOIAutomatically() {
-    await this.buttonGenerateDOIAutomatically.click()
-    await this.buttonGenerateDOIAutomaticallyRegisterConfirmation.click()
-  }
-
-  async registerDOIManually() {
-    await this.buttonGenerateDOIManually.click()
-    await this.inputGenerateDOIManuallyIdentifier.fill(`10.1000/${faker.airline.flightNumber({ length: { min: 6, max: 10 } })}`)
-    await this.buttonGenerateDOIManuallySave.click()
   }
 }
