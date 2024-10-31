@@ -1,30 +1,32 @@
 import { faker } from "@faker-js/faker";
 import { expect, test } from '@playwright/test';
-import path from "path";
 import { DatasetDetailsPage } from "./details-dataset.page";
 import { NewDatasetPage } from "./new-dataset.page";
 
-test('create new dataset', async ({ page }) => {
+test('create new dataset page layout', async ({ page }) => {
+    // given
     const newDatasetPage = new NewDatasetPage(page);
+
+    // when
     await newDatasetPage.goto()
 
-    // Assert page elements
+    // then
     await expect(newDatasetPage.titleHeader).toBeVisible()
     await expect(newDatasetPage.titleHeader).toHaveText('New Dataset');
     await expect(newDatasetPage.subtitleHeader).toHaveText('Create a new dataset informing a title and remote data files.');
     await expect(newDatasetPage.instructionText).toHaveText('A dataset refers to a collection of data that is organized and structured for a specific purpose. It can consist of various types of information such as text, numbers, images, audio, or video.');
+});
 
-    // Fill the form
+test('create new dataset', async ({ page }) => {
+    // given
     const expectedDatasetTitle = faker.company.name();
-    await newDatasetPage.inputDatasetTitle.fill(expectedDatasetTitle)
-    await newDatasetPage.uploadFile(path.join(__dirname, '../fixtures/files-for-upload/file1.txt'))
+    const newDatasetPage = new NewDatasetPage(page);
 
-    // Submit the form
-    await expect(newDatasetPage.buttonCreateDataset).toBeEnabled({ timeout: 3000 })
-    await newDatasetPage.buttonCreateDataset.click()
-    await newDatasetPage.buttonViewDataset.click()
+    // When
+    await newDatasetPage.goto()
+    newDatasetPage.createNewDataset(expectedDatasetTitle)
 
-    // Check details page
+    // Then
     const datasetDetailsPage = new DatasetDetailsPage(page)
     await expect(datasetDetailsPage.datasetTitle).toHaveText(expectedDatasetTitle)
 });

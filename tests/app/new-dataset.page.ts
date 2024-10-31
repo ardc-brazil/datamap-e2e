@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import path from "path";
 
 export class NewDatasetPage {
   readonly page: Page;
@@ -35,5 +36,15 @@ export class NewDatasetPage {
     await this.buttonBrowseFileUpload.click()
     const fileChooser = await fileChooserPromise;
     await fileChooser.setFiles(filePath);
+  }
+
+  async createNewDataset(expectedDatasetTitle: string) {
+    await this.inputDatasetTitle.fill(expectedDatasetTitle)
+    await this.uploadFile(path.join(__dirname, '../fixtures/files-for-upload/file1.txt'))
+
+    // Submit the form
+    await expect(this.buttonCreateDataset).toBeEnabled({ timeout: 3000 })
+    await this.buttonCreateDataset.click()
+    await this.buttonViewDataset.click()
   }
 }
