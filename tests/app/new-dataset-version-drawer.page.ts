@@ -54,4 +54,14 @@ export class NewDatasetVersionDrawer {
     await this.uploadFile(path.join(__dirname, '../fixtures/files-for-upload/file2.txt'))
     await this.buttonCreate.click()
   }
+
+  async makeSureThatUploadedWithSuccess() {
+    await expect(this.messageCreatingNewVersion).toBeVisible()
+    await expect(this.messageCreatingNewVersion).toContainText("Your dataset version is being created")
+    await expect(this.messageCreatingNewVersion).toContainText("If your dataset is public, users will see the previous version during processing.")
+
+    await expect(this.messageSuccessfullyNewVersionCreated).toBeVisible()
+    await expect(this.messageSuccessfullyNewVersionCreated).toContainText("Success!")
+    await expect(this.messageSuccessfullyNewVersionCreated).toContainText("Your dataset version was created successfully.")
+  }
 }

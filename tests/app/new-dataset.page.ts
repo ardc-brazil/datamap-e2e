@@ -11,6 +11,8 @@ export class NewDatasetPage {
   readonly buttonBrowseFolderUpload: Locator;
   readonly buttonCreateDataset: Locator;
   readonly buttonViewDataset: Locator;
+  readonly buttonGenerateDOIAutomatically: Locator;
+  readonly buttonGenerateDOIAutomaticallyRegisterConfirmation: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -23,6 +25,8 @@ export class NewDatasetPage {
     this.buttonBrowseFolderUpload = page.getByRole('button', { name: 'browse folders' })
     this.buttonCreateDataset = page.getByRole('button', { name: 'Create Dataset' })
     this.buttonViewDataset = page.getByRole('button', { name: "View Dataset" })
+    this.buttonGenerateDOIAutomatically = page.getByRole('button', { name: "Generate DOI Automatically" })
+    this.buttonGenerateDOIAutomaticallyRegisterConfirmation = page.getByRole('button', { name: "Register" })
   }
 
   async goto() {
@@ -46,5 +50,10 @@ export class NewDatasetPage {
     await expect(this.buttonCreateDataset).toBeEnabled({ timeout: 3000 })
     await this.buttonCreateDataset.click()
     await this.buttonViewDataset.click()
+  }
+
+  async registerDOIAutomatically() {
+    await this.buttonGenerateDOIAutomatically.click()
+    await this.buttonGenerateDOIAutomaticallyRegisterConfirmation.click()    
   }
 }

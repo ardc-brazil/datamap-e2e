@@ -53,7 +53,7 @@ test('list versions for dataset', async ({ page }) => {
     // When
     await datasetDetailsPage.openNewVersionDrawer()
     await versionDrawer.createNewVersion()
-    await expect(versionDrawer.messageSuccessfullyNewVersionCreated).toBeVisible()
+    await versionDrawer.makeSureThatUploadedWithSuccess()
     await versionDrawer.buttonCloseWindow.click()
     await datasetDetailsPage.buttonListDatasetVersion2.click()
 
