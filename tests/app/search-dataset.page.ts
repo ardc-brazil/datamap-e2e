@@ -1,6 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 
-export default class ListDatasetPage {
+export default class SearchDatasetPage {
   readonly page: Page;
   readonly titleHeader: Locator;
   readonly subtitleHeader: Locator;
