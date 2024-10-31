@@ -56,9 +56,9 @@ export class NewDatasetVersionDrawer {
   }
 
   async makeSureThatUploadedWithSuccess() {
-    await expect(this.messageCreatingNewVersion).toBeVisible()
-    await expect(this.messageCreatingNewVersion).toContainText("Your dataset version is being created")
-    await expect(this.messageCreatingNewVersion).toContainText("If your dataset is public, users will see the previous version during processing.")
+    await expect.soft(this.messageCreatingNewVersion).toBeVisible()
+    await expect.soft(this.messageCreatingNewVersion).toContainText("Your dataset version is being created")
+    await expect.soft(this.messageCreatingNewVersion).toContainText("If your dataset is public, users will see the previous version during processing.")
 
     await expect(this.messageSuccessfullyNewVersionCreated).toBeVisible()
     await expect(this.messageSuccessfullyNewVersionCreated).toContainText("Success!")
