@@ -54,7 +54,7 @@ export default defineConfig({
         baseURL: 'http://localhost:3000',
         ...devices['Desktop Chrome'],
         storageState: STORAGE_STATE,
-        trace: 'on-all-retries',
+        trace: 'retain-on-first-failure',
       },
     },
     {

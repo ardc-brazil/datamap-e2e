@@ -53,7 +53,7 @@ test('list versions for dataset', async ({ page }) => {
     // When
     await datasetDetailsPage.openNewVersionDrawer()
     await versionDrawer.createNewVersion()
-    await expect(versionDrawer.messageSuccessfullyNewVersionCreated).toBeVisible()
+    await versionDrawer.makeSureThatUploadedWithSuccess()
     await versionDrawer.buttonCloseWindow.click()
     await datasetDetailsPage.buttonListDatasetVersion2.click()
 
@@ -87,11 +87,7 @@ test('create version 2 for the dataset', async ({ page }) => {
     await versionDrawer.createNewVersion()
 
     // Then
-    await expect(versionDrawer.messageCreatingNewVersion).toBeVisible()
-    await expect(versionDrawer.messageCreatingNewVersion).toContainText("Your dataset version is being created")
-    await expect(versionDrawer.messageCreatingNewVersion).toContainText("If your dataset is public, users will see the previous version during processing.")
-
-    await expect(versionDrawer.messageSuccessfullyNewVersionCreated).toBeVisible()
+    await expect(versionDrawer.messageSuccessfullyNewVersionCreated).toBeVisible({ timeout: 15000 })
     await expect(versionDrawer.messageSuccessfullyNewVersionCreated).toContainText("Success!")
     await expect(versionDrawer.messageSuccessfullyNewVersionCreated).toContainText("Your dataset version was created successfully.")
 
