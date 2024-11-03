@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { expect, type Locator, type Page } from '@playwright/test';
+import path from "path";
 
 export class DatasetDetailsPage {
   readonly page: Page;
@@ -21,6 +22,9 @@ export class DatasetDetailsPage {
   readonly buttonGenerateDOIManually: Locator;
   readonly buttonGenerateDOIManuallySave: Locator;
   readonly inputGenerateDOIManuallyIdentifier: Locator;
+
+  readonly dataFileItem: Locator;
+  readonly buttonDataFileItemDownload: Locator;
 
 
   constructor(page: Page) {
@@ -44,6 +48,9 @@ export class DatasetDetailsPage {
     this.buttonGenerateDOIManually = page.getByRole('button', { name: 'Register Manual DOI' })
     this.inputGenerateDOIManuallyIdentifier = page.getByPlaceholder('10.1000/182')
     this.buttonGenerateDOIManuallySave = page.getByRole('button', { name: 'Save' })
+
+    this.dataFileItem = page.getByText('file1.txt')
+    this.buttonDataFileItemDownload = page.getByRole('button', { name: 'file_download' })
   }
 
   async goto(datasetId: string) {
@@ -70,5 +77,19 @@ export class DatasetDetailsPage {
     await this.buttonGenerateDOIManually.click()
     await this.inputGenerateDOIManuallyIdentifier.fill(`10.1000/${faker.airline.flightNumber({ length: { min: 6, max: 10 } })}`)
     await this.buttonGenerateDOIManuallySave.click()
+  }
+
+  async downloadFirstFileAvailable(): Promise<string> {
+    // Start waiting for download before clicking. Note no await.
+    const downloadPromise = this.page.waitForEvent('download');
+
+    await this.buttonDataFileItemDownload.click()
+    const download = await downloadPromise;
+
+    // Wait for the download process to complete and save the downloaded file somewhere.
+    const downloadFilePath = path.join(__dirname, `../../playwright-report/file-download/${download.suggestedFilename()}`)
+    await download.saveAs(downloadFilePath);
+
+    return downloadFilePath
   }
 }
