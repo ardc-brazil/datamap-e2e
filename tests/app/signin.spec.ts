@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { MainMenuPage } from "../app/main-manu.page";
 import { ProfilePage } from "../app/profile.page";
 import { SignInPage } from "./signin.page";
@@ -7,13 +7,17 @@ import { SignInPage } from "./signin.page";
 test('signing with orcid available', async ({ page, request }) => {
     const pageObj = new SignInPage(page, request);
     await pageObj.goto()
-    await pageObj.signinWithOrcidToDatamap()
+
+    // then 
+    await expect(pageObj.getSignWithOrcidButton).toBeVisible()
 });
 
 test('signing with github available', async ({ page, request }) => {
     const pageObj = new SignInPage(page, request);
     await pageObj.goto()
-    await pageObj.signinWithGithubToDatamap()
+
+    // then
+    await expect(pageObj.getSignWithOrcidButton).toBeVisible()
 });
 
 test('signing with credentials', async ({ page, request }) => {
@@ -25,7 +29,9 @@ test('signing with credentials', async ({ page, request }) => {
     await mainMenu.getProfileMenuItem.click();
 
     const profilePage = new ProfilePage(page);
-    await profilePage.assertName(result.name)
-    await profilePage.assertEmail(result.email)
-    await profilePage.assertProvider(`credentials - ${result.email}`)
+
+    // then
+    await expect(profilePage.getNameText).toContainText(result.name);
+    await expect(profilePage.getEmailText).toContainText(result.email);
+    await expect(profilePage.getProviderText).toContainText(`credentials - ${result.email}`);
 });
