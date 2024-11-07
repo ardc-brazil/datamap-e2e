@@ -61,7 +61,7 @@ export default defineConfig({
       name: 'home',
       testMatch: '**/public/*.spec.ts',
       use: {
-        baseURL: 'http://localhost:3000',
+        baseURL: 'http://localhost:3001/h',
         ...devices['Desktop Chrome'],
         trace: 'on-all-retries',
       },

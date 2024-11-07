@@ -1,4 +1,3 @@
-
 import { faker } from '@faker-js/faker';
 import { APIRequestContext, expect, type Locator, type Page } from '@playwright/test';
 import { InternalHomePage } from "../app/internal-home.page";
@@ -51,14 +50,7 @@ export class SignInPage {
     return users[0]
   }
 
-  async signinWithOrcidToDatamap() {
-    await expect(this.getSignWithOrcidButton).toBeVisible()
-  }
-
-  async signinWithGithubToDatamap() {
-    await expect(this.getSignWithOrcidButton).toBeVisible()
-  }
-
+  
   async signWithLocalCredentialRandonUser() {
     const name = faker.person.fullName();
     const email = `${faker.internet.email().split("@")[0]}@local.datamap.com`

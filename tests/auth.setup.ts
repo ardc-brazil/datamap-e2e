@@ -1,6 +1,6 @@
 import { test as setup } from '@playwright/test';
 import { STORAGE_STATE } from "../playwright.config";
-import { SignInPage } from "./public/signin.page";
+import { SignInPage } from "./app/signin.page";
 
 setup('authenticate', async ({ page, request }) => {
     // Perform authentication steps. Replace these actions with your own.
