@@ -8,10 +8,7 @@ export class GatekeeperTestAPI {
     constructor(request: APIRequestContext) {
         this.baseUrl = process.env.DATAMAP_BASE_URL;
         this.request = request;
-
-        // TODO: Is forcing datamap/production/data-amazon for everything.
-        // this.testTenancyName = process.env.PLAYWRIGHT_TEST_TENANCY;
-        this.testTenancyName = "datamap/production/data-amazon";
+        this.testTenancyName = process.env.PLAYWRIGHT_TEST_TENANCY;
     }
 
     async getUser(email: string) {
@@ -56,5 +53,24 @@ export class GatekeeperTestAPI {
 
         // That's should be a success operation.
         expect(response.ok()).toBeTruthy()
+    }
+
+    async createUser(name: string, email: string) {
+        const response = await this.request.post(`${this.baseUrl}/users`, {
+            data: {
+                "name": name,
+                "email": email,
+                "roles": ["read"],
+                "providers": [
+                    {
+                        "name": "credentials",
+                        "reference": email,
+                    }
+                ]
+            }
+        })
+
+        expect(response.status()).toEqual(200)
+        expect(response.status()).toBeLessThan(500)
     }
 }
