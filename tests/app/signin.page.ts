@@ -33,24 +33,29 @@ export class SignInPage {
   }
 
   async goto() {
-    await this.page.goto('/account/login?phase=sign-in&tenancy=datamap%2Fproduction%2Fdata-amazon');
+    await this.page.goto('/account/login?phase=sign-in');
   }
 
   async signInAsAdmin(): Promise<{ id: string, name: string, email: string }> {
     await this.goto()
     const { email } = await this.signWithLocalCredentialRandonUser();
+    return this.getUser(email)
+  }
 
+  async getUser(email: string): Promise<{ id: string, name: string, email: string }> {
     const api = new GatekeeperTestAPI(this.request);
     const users = await api.getUser(email)
-    const userId = users[0].id
-
-    await api.setRoleAdmin(userId)
-    await api.setLocalTestTenancy(userId)
-
     return users[0]
   }
 
-  
+  async configureUser(email: string) {
+    const user = await this.getUser(email)
+    const api = new GatekeeperTestAPI(this.request);
+    await api.setRoleAdmin(user.id)
+    await api.setLocalTestTenancy(user.id)
+  }
+
+
   async signWithLocalCredentialRandonUser() {
     const name = faker.person.fullName();
     const email = `${faker.internet.email().split("@")[0]}@local.datamap.com`
@@ -58,7 +63,13 @@ export class SignInPage {
     return { name: name, email: email }
   }
 
-  async signWithLocalCredential(name, email) {
+  async signWithLocalCredential(name: string, email: string) {
+    // creates the user via API and configure it
+    const api = new GatekeeperTestAPI(this.request);
+    await api.createUser(name, email)
+    await this.configureUser(email)
+
+    // Login with the user, to create cookies and everything else
     await expect(this.getNameInput).toBeVisible()
     await this.getNameInput.fill(name)
     await this.getEmailInput.fill(email);
