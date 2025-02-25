@@ -25,7 +25,8 @@ export default defineConfig({
   /* Retry on CI only */
   retries: 2,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  // workers: process.env.CI ? 1 : undefined,
+  workers: 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -61,7 +62,7 @@ export default defineConfig({
       name: 'home',
       testMatch: '**/public/*.spec.ts',
       use: {
-        baseURL: 'http://localhost:3001/h',
+        baseURL: 'http://localhost:3000',
         ...devices['Desktop Chrome'],
         trace: 'on-all-retries',
       },
